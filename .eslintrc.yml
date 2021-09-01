@@ -15,4 +15,5 @@ plugins:
   - react
   - "@typescript-eslint"
 rules:
-  { "no-use-before-define": ["error", { "functions": true, "classes": true }] }
+  "react/react-in-jsx-scope": "off"
+  "react/prop-types": "off"
