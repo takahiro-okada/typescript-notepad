@@ -6,21 +6,30 @@ import { AuthenticatedRoute } from "./AuthenticatedRoute";
 import { RecoilRoot } from "recoil";
 import { AuthenticatedGuard } from "./AuthenticatedGuard";
 import { About } from "../components/page/About";
+import styled from "styled-components";
+
 export const Router: VFC = () => {
   return (
     <>
       <RecoilRoot>
         <Header />
-        <div>
-          <Switch>
-            <Route path="/login" exact component={Login} />
-            <Route path="/about" exact component={About} />
-            <AuthenticatedGuard>
-              <AuthenticatedRoute />
-            </AuthenticatedGuard>
-          </Switch>
-        </div>
+        <SContainer>
+          <div>
+            <Switch>
+              <Route path="/login" exact component={Login} />
+              <Route path="/about" exact component={About} />
+              <AuthenticatedGuard>
+                <AuthenticatedRoute />
+              </AuthenticatedGuard>
+            </Switch>
+          </div>
+        </SContainer>
       </RecoilRoot>
     </>
   );
 };
+const SContainer = styled.div`
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+`;

@@ -13,7 +13,6 @@ export const Header = () => {
     localStorage.clear();
     history.push("/login");
   };
-  console.log(isAuthenticated);
   return (
     <SHeader>
       <SHeaderNav>
@@ -38,20 +37,37 @@ const SHeader = styled.div`
   padding: 10px 60px;
 `;
 const SHeaderLogo = styled(Link)`
-  font-family: "Staatliches", cursive;
-  color: #fff;
+  color: #333;
   font-size: 32px;
+  text-decoration: none;
 `;
 const SHeaderNav = styled.nav`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 const SHeaderList = styled.ul`
   display: flex;
 `;
 const SHeaderItem = styled(Link)`
-  color: #fff;
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 2rem;
+  :hover {
+    opacity: 0.7;
+  }
 `;
 const SButton = styled.button`
+  display: inline-block;
+  font-weight: bold;
+  position: relative;
+  padding: 0.5rem 2rem;
   color: #fff;
+  border-radius: 10rem;
+  border: none;
+  background: linear-gradient(45deg, #288267 35%, #007bbb);
+  :hover {
+    color: #fff;
+    opacity: 0.9;
+  }
 `;

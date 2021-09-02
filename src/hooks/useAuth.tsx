@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { useHistory } from "react-router-dom";
-
 import {
   userEmailState,
   userPasswordState,
@@ -24,13 +23,11 @@ export const useAuth = () => {
       .then((results) => {
         const token = results.data.access_token;
         setIsAuthenticated(true);
-        console.log(isAuthenticated);
-        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("token", token);
         history.push("/");
       })
       .catch((error) => {
         console.log(error.status);
-        alert("ログインできませんでした");
       });
   };
   return { fetchData, isAuthenticated, setIsAuthenticated };
