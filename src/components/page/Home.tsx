@@ -18,10 +18,10 @@ export const Home = () => {
   };
   const addMemos: any = useCallback(() => {
     axios
-      .post<Array<Memos>>(`${apiUrl}memos`, data)
+      .post<Array<Memos>>(`${apiUrl}memos`, { body: data })
       .then((response) => {
-        console.log("response data:", data);
-        console.log("response body:", response);
+        console.log("POST成功");
+        console.log(response);
       })
       .catch((error) => {
         console.log(error.status);
@@ -30,27 +30,43 @@ export const Home = () => {
   fetchMemos();
   return (
     <>
-      <ScardList>
+      <SCardList>
         {memos.map((memo, index) => {
           return (
-            <>
-              <li key={index}>
-                <h2>{memo.title}</h2>
+            <SMemoItem key={index}>
+              <h2>{memo.title}</h2>
+              <SMemoMeta>
                 <div>{memo.category}</div>
                 <div>{memo.date}</div>
-                <div>{memo.description}</div>
-              </li>
-            </>
+              </SMemoMeta>
+              <div>{memo.description}</div>
+            </SMemoItem>
           );
         })}
-      </ScardList>
+      </SCardList>
       <button onClick={addMemos}>button</button>
     </>
   );
 };
-const ScardList = styled.ul`
+const SCardList = styled.ul`
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
+  padding: 0;
+`;
+const SMemoItem = styled.li`
+  padding: 1.5em;
+  overflow: hidden;
+  box-shadow: 0 0.25rem 0.25rem hsla(0, 0%, 0%, 0.1);
+  background-image: linear-gradient(
+      180deg,
+      rgba(115, 115, 115, 0.1) 2rem,
+      rgba(255, 255, 255, 0) 2.5rem
+    ),
+    linear-gradient(180deg, rgb(255, 255, 179), rgb(255, 255, 179));
+`;
+const SMemoMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

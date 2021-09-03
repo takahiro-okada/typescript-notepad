@@ -20,6 +20,6 @@ export const useAllMemos = () => {
       .catch((error) => {
         console.log(error.status);
       });
-  }, []);
-  return { fetchMemos, memos };
+  }, [memos]);
+  return { fetchMemos, setMemos, memos };
 };

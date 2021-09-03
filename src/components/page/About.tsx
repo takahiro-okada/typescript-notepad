@@ -16,11 +16,16 @@ export const About = () => {
         <li>styled-components</li>
       </ul>
       <h2>Github</h2>
-      <SLink>
+      <SLink to="/https://github.com/takahiro-okada/typescript-notepad">
         <SGithub />
         ソースコードはこちらで公開しております
       </SLink>
     </>
   );
 };
-const SLink = styled(Link)``;
+const SLink = styled(Link)`
+  background-color: #f6f8fa;
+  color: #333;
+  padding: 1rem 1rem;
+  border-radius: 10px;
+`;
