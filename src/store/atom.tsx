@@ -12,3 +12,23 @@ export const isAuthenticatedState = atom<boolean>({
   key: "authenticated",
   default: false,
 });
+export const idState = atom<string>({
+  key: "id",
+  default: "",
+});
+export const titleState = atom<string>({
+  key: "title",
+  default: "",
+});
+export const categoryState = atom<string>({
+  key: "category",
+  default: "",
+});
+export const descriptionState = atom<string>({
+  key: "description",
+  default: "",
+});
+export const dateState = atom<string>({
+  key: "date",
+  default: "",
+});

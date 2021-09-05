@@ -1,5 +1,5 @@
 export type Memos = {
-  id:string
+  id?:string
   title: string
   category: string
   date: string

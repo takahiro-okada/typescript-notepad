@@ -15,11 +15,11 @@ export const useAllMemos = () => {
         },
       })
       .then((result) => {
-        setMemos(result.data);
+        setMemos(() => result.data);
       })
       .catch((error) => {
         console.log(error.status);
       });
-  }, [memos]);
+  }, []);
   return { fetchMemos, setMemos, memos };
 };
