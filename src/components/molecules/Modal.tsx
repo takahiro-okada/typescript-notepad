@@ -20,13 +20,13 @@ export const Modal: VFC<Props> = (props) => {
   const [title, setTitle] = useRecoilState(titleState);
   const [category, setCategory] = useRecoilState(categoryState);
   const [description, setDescription] = useRecoilState(descriptionState);
-  const [date, setDate] = useRecoilState(dateState);
+  const [, setDate] = useRecoilState(dateState);
   const onChangeTitle = (event: any) => setTitle(event.target.value);
   const onChangeCategory = (event: any) => setCategory(event.target.value);
   const onChangeDescription = (event: any) =>
     setDescription(event.target.value);
   const onChangeDate = (date: any) => setDate(date);
-  console.log(date);
+  // 編集するとき
   if (show) {
     return (
       <>

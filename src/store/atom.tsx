@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-
+import { Memos } from "../types/api/memos";
 export const userEmailState = atom<string>({
   key: "userEmail",
   default: "",
@@ -10,7 +10,7 @@ export const userPasswordState = atom<string>({
 });
 export const isAuthenticatedState = atom<boolean>({
   key: "authenticated",
-  default: false,
+  default: true,
 });
 export const idState = atom<string>({
   key: "id",
@@ -31,4 +31,16 @@ export const descriptionState = atom<string>({
 export const dateState = atom<string>({
   key: "date",
   default: "",
+});
+export const editMemosState = atom<Memos>({
+  key: "editMemos",
+  default: {
+    id: 1,
+    title: "string",
+    category: "string",
+    date: "string",
+    description: "string",
+    // eslint-disable-next-line camelcase
+    mark_div: 0,
+  },
 });

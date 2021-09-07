@@ -14,15 +14,13 @@ export const Router: VFC = () => {
       <RecoilRoot>
         <Header />
         <SContainer>
-          <div>
-            <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/about" exact component={About} />
-              <AuthenticatedGuard>
-                <AuthenticatedRoute />
-              </AuthenticatedGuard>
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <Route path="/about" exact component={About} />
+            <AuthenticatedGuard>
+              <AuthenticatedRoute />
+            </AuthenticatedGuard>
+          </Switch>
         </SContainer>
       </RecoilRoot>
     </>

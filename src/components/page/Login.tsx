@@ -84,7 +84,6 @@ const SLoginInput = styled.input`
   font-weight: bold;
   background-color: #c4c4c4;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
-
   font-size: 24px;
   line-height: 2;
   width: 100%;

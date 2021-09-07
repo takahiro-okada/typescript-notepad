@@ -1,4 +1,7 @@
-import { useCallback, useEffect } from "react";
+/* eslint-disable import/no-duplicates */
+// eslint-disable-next-line no-use-before-define
+import React from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAllMemos } from "../../hooks/useAllMemos";
 import { ModalButton } from "../atoms/ModalButton";
 import { Modal } from "../molecules/Modal";
@@ -8,7 +11,7 @@ import { Memos } from "../../types/api/memos";
 import styled from "styled-components";
 import { Trash } from "@styled-icons/bootstrap/Trash";
 import { Edit } from "@styled-icons/boxicons-regular/Edit";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   titleState,
   categoryState,
@@ -19,11 +22,12 @@ import {
 export const Home = () => {
   const { toggle, show, setShow } = useModal();
   const { fetchMemos, memos, setMemos } = useAllMemos();
+  const [isEdit, setIsEdit] = useState(false);
   const apiUrl = "https://raisetech-memo-api.herokuapp.com/api/";
-  const title = useRecoilValue(titleState);
-  const category = useRecoilValue(categoryState);
-  const description = useRecoilValue(descriptionState);
-  const date = useRecoilValue(dateState);
+  const [title, setTitle] = useRecoilState(titleState);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const [description, setDescription] = useRecoilState(descriptionState);
+  const [date, setDate] = useRecoilState(dateState);
   const data = {
     title: title,
     category: category,
@@ -32,7 +36,6 @@ export const Home = () => {
     // eslint-disable-next-line camelcase
     mark_div: 1,
   };
-  console.log(data);
   const token = localStorage.getItem("token");
   const config = {
     headers: {
@@ -59,7 +62,6 @@ export const Home = () => {
     axios
       .delete<Array<Memos>>(`${apiUrl}memo/` + index, config)
       .then((response) => {
-        console.log(response);
         const newMemos = [...memos];
         setMemos(newMemos);
         fetchMemos();
@@ -68,27 +70,88 @@ export const Home = () => {
         console.log(error.status);
       });
   }, []);
+  // 編集ボタン
+  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    console.log(title);
+  };
+  const onChangeCategory = (event: any) => setCategory(event.target.value);
+  const onChangeDescription = (event: any) =>
+    setDescription(event.target.value);
+  const onChangeDate = (date: any) => setDate(date);
+  const editMemo = (id: any) => {
+    setIsEdit(true);
+  };
+  const updateMemos = () => {
+    setIsEdit(false);
+  };
+  const cancelUpdate = () => {
+    setIsEdit(false);
+  };
   useEffect(() => {
     fetchMemos();
   }, []);
   return (
     <>
       <SCardList>
-        {memos.map((memo, index) => {
+        {memos.map((memo) => {
+          const { id, title, category, date, description } = memo;
           return (
-            <SMemoItem key={index}>
+            <SMemoItem key={id}>
+              <SMemoEdit>
+                <Edit onClick={() => editMemo(id)} />
+              </SMemoEdit>
               <SMemoTrash>
                 <Trash onClick={() => deleteMemo(memo.id)} />
               </SMemoTrash>
-              <SMemoEdit>
-                <Edit onClick={() => deleteMemo(memo.id)} />
-              </SMemoEdit>
-              <h2>{memo.title}</h2>
-              <SMemoMeta>
-                <div>{memo.category}</div>
-                <div>{memo.date}</div>
-              </SMemoMeta>
-              <div>{memo.description}</div>
+              <SMemoWrapper>
+                {isEdit ? (
+                  <SEditMemoTitle
+                    type="text"
+                    value={title}
+                    onChange={onChangeTitle}
+                  />
+                ) : (
+                  <h2>{title}</h2>
+                )}
+                <SMemoMeta>
+                  {isEdit ? (
+                    <SEditMemo
+                      type="text"
+                      value={category}
+                      onChange={onChangeCategory}
+                    />
+                  ) : (
+                    <div>{category}</div>
+                  )}
+                  {isEdit ? (
+                    <SEditMemo
+                      type="text"
+                      value={date}
+                      onChange={onChangeDate}
+                    />
+                  ) : (
+                    <div>{date}</div>
+                  )}
+                </SMemoMeta>
+                {isEdit ? (
+                  <SEditMemo
+                    type="text"
+                    value={description}
+                    onChange={onChangeDescription}
+                  />
+                ) : (
+                  <div>{description}</div>
+                )}
+                {isEdit ? (
+                  <>
+                    <SButtonUpdate onClick={updateMemos}>更新</SButtonUpdate>
+                    <SButtonCancell onClick={cancelUpdate}>
+                      キャンセル
+                    </SButtonCancell>
+                  </>
+                ) : null}
+              </SMemoWrapper>
             </SMemoItem>
           );
         })}
@@ -143,4 +206,37 @@ const SMemoEdit = styled.div`
     opacity: 0.8;
     zoom: 1.02;
   }
+`;
+const SEditMemoTitle = styled.input`
+  font-size: 20px;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+`;
+
+const SEditMemo = styled.input`
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+`;
+const SButtonUpdate = styled.button`
+  margin: 0.2rem;
+  display: inline-block;
+  font-weight: bold;
+  position: relative;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 10rem;
+  border: none;
+  background: linear-gradient(45deg, #288267 35%, #007bbb);
+`;
+const SButtonCancell = styled.button`
+  margin: 0.2rem;
+`;
+const SMemoWrapper = styled.div`
+  margin-top: 30px;
 `;

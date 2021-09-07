@@ -1,10 +1,16 @@
 import { useAuth } from "../hooks/useAuth";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 
 export const AuthenticatedGuard: FC = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const location = useLocation();
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
   return isAuthenticated ? (
     <>{children}</>
   ) : (
