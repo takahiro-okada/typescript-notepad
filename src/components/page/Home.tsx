@@ -33,7 +33,6 @@ export const Home = () => {
     category: category,
     description: description,
     date: date,
-    // eslint-disable-next-line camelcase
     mark_div: 1,
   };
   const token = localStorage.getItem("token");
@@ -46,11 +45,14 @@ export const Home = () => {
   // メモを追加する
   const addMemos: any = useCallback(() => {
     axios
-      .post<Array<Memos>>(`${apiUrl}memo`, data, config)
+      .post<Memos>(`${apiUrl}memo`, data, config)
       .then((response) => {
-        const arr = JSON.parse(response.config.data);
-        const newMemos = [...memos, arr];
+        const newMemos = [...memos, response.data];
         setMemos(newMemos);
+        setTitle("");
+        setCategory("");
+        setDescription("");
+        setDate("");
         setShow(false);
       })
       .catch((error) => {
@@ -71,9 +73,21 @@ export const Home = () => {
       });
   }, []);
   // 編集ボタン
-  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    console.log(title);
+  const inputChange = (event: any, memo: any) => {
+    const key = event.target.name;
+    const value = event.target.value;
+    console.log(memos[key]);
+    memos[key] = value;
+    const data = Object.assign({}, memos);
+    console.log(data);
+    axios
+      .put<Memos>(`${apiUrl}memo/` + memo.id, memo, config)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.status);
+      });
   };
   const onChangeCategory = (event: any) => setCategory(event.target.value);
   const onChangeDescription = (event: any) =>
@@ -109,7 +123,8 @@ export const Home = () => {
                   <SEditMemoTitle
                     type="text"
                     value={title}
-                    onChange={onChangeTitle}
+                    name="title"
+                    onChange={(event) => inputChange(event, memo)}
                   />
                 ) : (
                   <h2>{title}</h2>

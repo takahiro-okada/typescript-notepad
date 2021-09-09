@@ -16,7 +16,12 @@ export const About = () => {
         <li>styled-components</li>
       </ul>
       <h2>Github</h2>
-      <SLink to="/https://github.com/takahiro-okada/typescript-notepad">
+      <SLink
+        to={{
+          pathname: "https://github.com/takahiro-okada/typescript-notepad",
+        }}
+        target="_blank"
+      >
         <SGithub />
         ソースコードはこちらで公開しております
       </SLink>
