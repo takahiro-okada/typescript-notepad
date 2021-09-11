@@ -10,7 +10,7 @@ export const userPasswordState = atom<string>({
 });
 export const isAuthenticatedState = atom<boolean>({
   key: "authenticated",
-  default: true,
+  default: false,
 });
 export const idState = atom<string>({
   key: "id",

@@ -13,6 +13,8 @@ import { Memos } from "../../types/api/memos";
 import styled from "styled-components";
 import { Trash } from "@styled-icons/bootstrap/Trash";
 import { Edit } from "@styled-icons/boxicons-regular/Edit";
+import toast, { Toaster } from "react-hot-toast";
+import "react-toastify/dist/ReactToastify.css";
 import { useRecoilState } from "recoil";
 import {
   titleState,
@@ -24,7 +26,7 @@ import {
 export const Home = () => {
   const { toggle, show, setShow } = useModal();
   const { fetchMemos, memos, setMemos } = useAllMemos();
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const apiUrl = "https://raisetech-memo-api.herokuapp.com/api/";
   const [title, setTitle] = useRecoilState(titleState);
   const [category, setCategory] = useRecoilState(categoryState);
@@ -46,6 +48,7 @@ export const Home = () => {
   };
   // メモを追加する
   const addMemos: any = useCallback(() => {
+    toast.success("メモを追加しました");
     axios
       .post<Memos>(`${apiUrl}memo`, data, config)
       .then((response) => {
@@ -63,6 +66,7 @@ export const Home = () => {
   }, [setMemos, memos, data]);
   // メモを削除する
   const deleteMemo: any = useCallback((index: any) => {
+    toast("メモを捨てました");
     axios
       .delete<Array<Memos>>(`${apiUrl}memo/` + index, config)
       .then((response) => {
@@ -75,7 +79,7 @@ export const Home = () => {
       });
   }, []);
   // 編集ボタン
-  const inputChange = (event: any, memo: any) => {
+  const onChangeTitle = (event: any, memo: any) => {
     const newMemos = memos.map((newMemo) => {
       if (newMemo.id === memo.id) {
         return { ...memo, title: event.target.value };
@@ -112,10 +116,11 @@ export const Home = () => {
     });
     setMemos(newMemos);
   };
-  const editMemo = (id: any) => {
+  const editMemo = (memo: any) => {
     setIsEdit(true);
   };
   const updateMemos = (memo: any) => {
+    toast.success("メモを書き換えました");
     axios
       .put<Memos>(`${apiUrl}memo/` + memo.id, memo, config)
       .then((response) => {
@@ -128,6 +133,7 @@ export const Home = () => {
   };
   const cancelUpdate = () => {
     setIsEdit(false);
+    fetchMemos();
   };
   useEffect(() => {
     fetchMemos();
@@ -140,18 +146,19 @@ export const Home = () => {
           return (
             <SMemoItem key={id}>
               <SMemoEdit>
-                <Edit onClick={() => editMemo(id)} />
+                <Edit onClick={() => editMemo(memo)} />
               </SMemoEdit>
               <SMemoTrash>
                 <Trash onClick={() => deleteMemo(memo.id)} />
               </SMemoTrash>
+              <Toaster />
               <SMemoWrapper>
                 {isEdit ? (
                   <SEditMemoTitle
                     type="text"
                     value={title}
                     name="title"
-                    onChange={(event) => inputChange(event, memo)}
+                    onChange={(event) => onChangeTitle(event, memo)}
                   />
                 ) : (
                   <h2>{title}</h2>
@@ -213,11 +220,13 @@ const SCardList = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
   padding: 0;
+  @media (max-width: 568px) {
+    grid-template-columns: 1fr;
+  }
 `;
 const SMemoItem = styled.li`
   position: relative;
   padding: 1.5em;
-  overflow: hidden;
   box-shadow: 0 0.25rem 0.25rem hsla(0, 0%, 0%, 0.1);
   background-image: linear-gradient(
       180deg,

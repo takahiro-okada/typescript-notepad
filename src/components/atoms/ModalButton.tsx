@@ -26,4 +26,12 @@ const SModalButton = styled.button`
     color: #fff;
     opacity: 0.9;
   }
+  @media (max-width: 768px) {
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    right: 20px;
+    bottom: 20px;
+  }
 `;

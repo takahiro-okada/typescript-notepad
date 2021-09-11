@@ -35,11 +35,16 @@ export const Header = () => {
 const SHeader = styled.div`
   background-color: #fcdd0b;
   padding: 10px 60px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 const SHeaderLogo = styled(Link)`
   color: #333;
   font-size: 32px;
   text-decoration: none;
+  @media (max-width: 768px) {
+  }
 `;
 const SHeaderNav = styled.nav`
   display: flex;
@@ -56,6 +61,9 @@ const SHeaderItem = styled(Link)`
   :hover {
     opacity: 0.7;
   }
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 const SButton = styled.button`
   display: inline-block;
@@ -69,5 +77,8 @@ const SButton = styled.button`
   :hover {
     color: #fff;
     opacity: 0.9;
+  }
+  @media (max-width: 768px) {
+    padding: 0.5rem;
   }
 `;

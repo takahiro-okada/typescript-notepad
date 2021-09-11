@@ -79,6 +79,9 @@ const SModalContent = styled.div`
   width: 50%;
   padding: 1em;
   background: #fff;
+  @media (max-width: 768px) {
+    width: 95%;
+  }
 `;
 const SModalOverran = styled.div`
   position: fixed;
@@ -93,6 +96,9 @@ const SModalOverran = styled.div`
 `;
 const SModalBox = styled.div`
   padding: 60px 30px;
+  @media (max-width: 768px) {
+    padding: 5px;
+  }
 `;
 const SModalItem = styled.div`
   margin-top: 20px;
