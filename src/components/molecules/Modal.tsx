@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { VFC } from "react";
 import { ModalCloseButton } from "../atoms/ModalCloseButton";
 import DayPickerInput from "react-day-picker/DayPickerInput";
+import { format } from "date-fns";
 import "react-day-picker/lib/style.css";
 import {
   titleState,
@@ -25,7 +26,7 @@ export const Modal: VFC<Props> = (props) => {
   const onChangeCategory = (event: any) => setCategory(event.target.value);
   const onChangeDescription = (event: any) =>
     setDescription(event.target.value);
-  const onChangeDate = (date: any) => setDate(date);
+  const onChangeDate = (date: any) => setDate(format(date, "yyyy/MM/dd"));
   // 編集するとき
   if (show) {
     return (
@@ -52,16 +53,7 @@ export const Modal: VFC<Props> = (props) => {
               </SModalItem>
               <SModalItem>
                 <SModalTitle>いつまでにやる</SModalTitle>
-                <DayPickerInput
-                  placeholder="YYYY/MM/DD"
-                  format="YYYY/MM/DD"
-                  onDayChange={onChangeDate}
-                  dayPickerProps={{
-                    month: new Date(2018, 10),
-                    showWeekNumbers: true,
-                    todayButton: "Today",
-                  }}
-                />
+                <DayPickerInput onDayChange={onChangeDate} />
               </SModalItem>
               <SModalItem>
                 <SModalTitle>内容</SModalTitle>

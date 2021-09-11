@@ -16,7 +16,6 @@ export const useAllMemos = () => {
       })
       .then((result) => {
         setMemos(() => result.data);
-        console.log(memos);
       })
       .catch((error) => {
         console.log(error.status);

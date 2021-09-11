@@ -7,6 +7,8 @@ import { ModalButton } from "../atoms/ModalButton";
 import { Modal } from "../molecules/Modal";
 import { useModal } from "../../hooks/useModal";
 import axios from "axios";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import { format } from "date-fns";
 import { Memos } from "../../types/api/memos";
 import styled from "styled-components";
 import { Trash } from "@styled-icons/bootstrap/Trash";
@@ -74,12 +76,46 @@ export const Home = () => {
   }, []);
   // 編集ボタン
   const inputChange = (event: any, memo: any) => {
-    const key = event.target.name;
-    const value = event.target.value;
-    console.log(memos[key]);
-    memos[key] = value;
-    const data = Object.assign({}, memos);
-    console.log(data);
+    const newMemos = memos.map((newMemo) => {
+      if (newMemo.id === memo.id) {
+        return { ...memo, title: event.target.value };
+      }
+      return newMemo;
+    });
+    setMemos(newMemos);
+  };
+  const onChangeCategory = (event: any, memo: any) => {
+    const newMemos = memos.map((newMemo) => {
+      if (newMemo.id === memo.id) {
+        return { ...memo, category: event.target.value };
+      }
+      return newMemo;
+    });
+    setMemos(newMemos);
+  };
+  const onChangeDescription = (event: any, memo: any) => {
+    const newMemos = memos.map((newMemo) => {
+      if (newMemo.id === memo.id) {
+        return { ...memo, description: event.target.value };
+      }
+      return newMemo;
+    });
+    setMemos(newMemos);
+  };
+  const onChangeDate = (selectedDay: any, memo: any) => {
+    const newDate = format(selectedDay, "yyyy/MM/dd");
+    const newMemos = memos.map((newMemo) => {
+      if (newMemo.id === memo.id) {
+        return { ...memo, date: newDate };
+      }
+      return newMemo;
+    });
+    setMemos(newMemos);
+  };
+  const editMemo = (id: any) => {
+    setIsEdit(true);
+  };
+  const updateMemos = (memo: any) => {
     axios
       .put<Memos>(`${apiUrl}memo/` + memo.id, memo, config)
       .then((response) => {
@@ -88,15 +124,6 @@ export const Home = () => {
       .catch((error) => {
         console.log(error.status);
       });
-  };
-  const onChangeCategory = (event: any) => setCategory(event.target.value);
-  const onChangeDescription = (event: any) =>
-    setDescription(event.target.value);
-  const onChangeDate = (date: any) => setDate(date);
-  const editMemo = (id: any) => {
-    setIsEdit(true);
-  };
-  const updateMemos = () => {
     setIsEdit(false);
   };
   const cancelUpdate = () => {
@@ -108,7 +135,7 @@ export const Home = () => {
   return (
     <>
       <SCardList>
-        {memos.map((memo) => {
+        {memos.map((memo, index) => {
           const { id, title, category, date, description } = memo;
           return (
             <SMemoItem key={id}>
@@ -134,16 +161,17 @@ export const Home = () => {
                     <SEditMemo
                       type="text"
                       value={category}
-                      onChange={onChangeCategory}
+                      onChange={(event) => onChangeCategory(event, memo)}
                     />
                   ) : (
                     <div>{category}</div>
                   )}
                   {isEdit ? (
-                    <SEditMemo
-                      type="text"
+                    <DayPickerInput
                       value={date}
-                      onChange={onChangeDate}
+                      onDayChange={(selectedDay) =>
+                        onChangeDate(selectedDay, memo)
+                      }
                     />
                   ) : (
                     <div>{date}</div>
@@ -153,14 +181,16 @@ export const Home = () => {
                   <SEditMemo
                     type="text"
                     value={description}
-                    onChange={onChangeDescription}
+                    onChange={(event) => onChangeDescription(event, memo)}
                   />
                 ) : (
                   <div>{description}</div>
                 )}
                 {isEdit ? (
                   <>
-                    <SButtonUpdate onClick={updateMemos}>更新</SButtonUpdate>
+                    <SButtonUpdate onClick={() => updateMemos(memo)}>
+                      更新
+                    </SButtonUpdate>
                     <SButtonCancell onClick={cancelUpdate}>
                       キャンセル
                     </SButtonCancell>
