@@ -132,8 +132,11 @@ export const Home = () => {
     setIsEdit(false);
   };
   const cancelUpdate = () => {
+    setTitle(title);
+    setCategory(category);
+    setDate(date);
+    setDescription(description);
     setIsEdit(false);
-    fetchMemos();
   };
   useEffect(() => {
     fetchMemos();

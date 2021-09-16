@@ -1,4 +1,6 @@
 import axios from "axios";
+import toast from "react-hot-toast";
+import "react-toastify/dist/ReactToastify.css";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { useHistory } from "react-router-dom";
 import {
@@ -28,6 +30,7 @@ export const useAuth = () => {
       })
       .catch((error) => {
         console.log(error.status);
+        toast.error("ログインできませんでした");
       });
   };
   return { fetchData, isAuthenticated, setIsAuthenticated };

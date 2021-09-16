@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { Toaster } from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
 import { userEmailState, userPasswordState } from "../../store/atom";
 import styled from "styled-components";
@@ -33,6 +34,7 @@ export const Login = () => {
           value={password}
           autoComplete="off"
         />
+        <Toaster />
       </InputContainer>
       <ButtonContainer>
         <SLoginButton onClick={fetchData}>ログイン</SLoginButton>
