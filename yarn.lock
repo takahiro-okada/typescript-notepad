@@ -11807,7 +11807,12 @@
   "resolved" "https://registry.npmjs.org/realpath-native/-/realpath-native-2.0.0.tgz"
   "version" "2.0.0"
 
-"recoil@^0.4.1":
+"recoil-persist@^3.0.0":
+  "integrity" "sha512-ZQB/U26uLdm2bDPh9HR44WamHz30XUD0cqAUnqSDuIKRTHsyjqccJ3ThXfoFYnG9QpOUcPSve6ElHseVll2g+w=="
+  "resolved" "https://registry.npmjs.org/recoil-persist/-/recoil-persist-3.0.0.tgz"
+  "version" "3.0.0"
+
+"recoil@^0.4.0", "recoil@^0.4.1":
   "integrity" "sha512-vp6KPwlHOjJ4bJofmdDchmgI9ilMTCoUisK8/WYLl8dThH7e7KmtZttiLgvDb2Em99dUfTEsk8vT8L1nUMgqXQ=="
   "resolved" "https://registry.npmjs.org/recoil/-/recoil-0.4.1.tgz"
   "version" "0.4.1"

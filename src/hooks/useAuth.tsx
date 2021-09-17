@@ -33,5 +33,9 @@ export const useAuth = () => {
         toast.error("ログインできませんでした");
       });
   };
-  return { fetchData, isAuthenticated, setIsAuthenticated };
+  return {
+    fetchData,
+    isAuthenticated,
+    setIsAuthenticated,
+  };
 };

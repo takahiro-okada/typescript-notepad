@@ -1,5 +1,9 @@
 import { atom } from "recoil";
 import { Memos } from "../types/api/memos";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
+
 export const userEmailState = atom<string>({
   key: "userEmail",
   default: "",
@@ -11,6 +15,7 @@ export const userPasswordState = atom<string>({
 export const isAuthenticatedState = atom<boolean>({
   key: "authenticated",
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 export const idState = atom<string>({
   key: "id",
