@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { Memos } from "../types/api/memos";
@@ -15,7 +16,13 @@ export const useAllMemos = () => {
         },
       })
       .then((result) => {
-        setMemos(() => result.data);
+        // console.log(result.data);
+        // const newList = [...result.data, { isEdit: false }];
+        // console.log(newList);
+        result.data.map((element) => {
+          const test = [element, { isEdit: false }];
+          console.log(test);
+        });
       })
       .catch((error) => {
         console.log(error.status);

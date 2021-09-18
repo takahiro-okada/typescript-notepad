@@ -6,4 +6,5 @@ export type Memos = {
   description: string
   // eslint-disable-next-line camelcase
   mark_div: number
+  isEdit:boolean
 }

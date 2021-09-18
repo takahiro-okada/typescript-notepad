@@ -47,5 +47,6 @@ export const editMemosState = atom<Memos>({
     description: "string",
     // eslint-disable-next-line camelcase
     mark_div: 0,
+    isEdit: true,
   },
 });

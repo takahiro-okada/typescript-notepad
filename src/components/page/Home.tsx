@@ -26,7 +26,6 @@ import {
 export const Home = () => {
   const { toggle, show, setShow } = useModal();
   const { fetchMemos, memos, setMemos } = useAllMemos();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
   const apiUrl = "https://raisetech-memo-api.herokuapp.com/api/";
   const [title, setTitle] = useRecoilState(titleState);
   const [category, setCategory] = useRecoilState(categoryState);
@@ -116,9 +115,6 @@ export const Home = () => {
     });
     setMemos(newMemos);
   };
-  const editMemo = (memo: any) => {
-    setIsEdit(true);
-  };
   const updateMemos = (memo: any) => {
     toast.success("メモを書き換えました");
     axios
@@ -129,23 +125,27 @@ export const Home = () => {
       .catch((error) => {
         console.log(error.status);
       });
-    setIsEdit(false);
   };
   const cancelUpdate = () => {
-    setTitle(title);
-    setCategory(category);
-    setDate(date);
-    setDescription(description);
-    setIsEdit(false);
+    fetchMemos();
   };
   useEffect(() => {
     fetchMemos();
   }, []);
+  const [, setIsEdit] = useState(false);
+  const editMemo = (memo: any) => {
+    memos.forEach((element) => {
+      if (element.id === memo.id) {
+        setIsEdit(true);
+        console.log(memo.isEdit);
+      }
+    });
+  };
   return (
     <>
       <SCardList>
         {memos.map((memo, index) => {
-          const { id, title, category, date, description } = memo;
+          const { id, title, category, date, description, isEdit } = memo;
           return (
             <SMemoItem key={id}>
               <SMemoEdit>
